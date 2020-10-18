@@ -1,7 +1,4 @@
-import java.util.*
 import java.util.concurrent.Callable
-import java.util.concurrent.Executors
-import java.util.concurrent.Future
 
 class SwaCLI : Callable<Int> {
     override fun call(): Int {
@@ -12,12 +9,9 @@ class SwaCLI : Callable<Int> {
     companion object{
         @JvmStatic
         fun main(args: Array<String>){
-            val executor = Executors.newFixedThreadPool(1)
-            val future: Future<Int> = executor.submit(SwaCLI())
-            println(Date().toString() + "::" + future.get())
-            executor.shutdown()
-
             println(SwApi.getPeople().results)
+            println("//////////")
+            println(SwApi.getPlanets().results)
         }
     }
 }
