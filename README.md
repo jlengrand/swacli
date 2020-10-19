@@ -12,6 +12,8 @@ Created using :
 $  ./gradlew customFatJar
 $ cd build/libs
 $ java -cp all-in-one-jar-1.0-SNAPSHOT.jar nl.lengrand.swacli.SwaCLI
+# to keep color
+$ java -Dpicocli.ansi=true -cp build/libs/all-in-one-jar-1.0-SNAPSHOT.jar nl.lengrand.swacli.SwaCLIOptions -p | less -R 
 ```
 
 ## Author 
