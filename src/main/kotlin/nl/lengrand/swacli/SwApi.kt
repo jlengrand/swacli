@@ -1,3 +1,5 @@
+package nl.lengrand.swacli
+
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -10,22 +12,22 @@ const val BASE_URL = "https://swapi.dev/api"
 
 class SwApi {
     companion object{
-        fun getPeople() : PeopleResponse {
-            return Fuel.get("${BASE_URL}/people/")
+        fun getPeople(query : String?) : Response<People> {
+            return Fuel.get("$BASE_URL/people/${queryString(query)}")
                 .header("accept", "application/json")
-                .responseObject<PeopleResponse>(mapper).third.get()
+                .responseObject<Response<People>>(mapper).third.get()
         }
 
-        fun getPlanets() : PlanetResponse {
-            return Fuel.get("${BASE_URL}/planets/")
+        fun getPlanets(query : String?) : Response<Planet> {
+            return Fuel.get("$BASE_URL/planets/${queryString(query)}")
                 .header("accept", "application/json")
-                .responseObject<PlanetResponse>(mapper).third.get()
+                .responseObject<Response<Planet>>(mapper).third.get()
         }
+
+        private fun queryString(query: String?) = if(query == null)  "" else  "?search=${query}"
     }
 }
 
-data class PlanetResponse(val count: Int, val next : String?, val previous : String?, val results : List<Planet>)
+data class Response<T>(val count: Int, val next : String?, val previous : String?, val results : List<T>)
 data class Planet(val climate: String, val name: String, val gravity: String, val orbital_period: Int, val diameter: Int)
-
-data class PeopleResponse(val count: Int, val next : String?, val previous : String?, val results : List<People>)
 data class People(val name: String, val height: Int, val mass: Int, val hair_color: String, val homeworld: String, val birth_year: String)
