@@ -5,7 +5,10 @@ import picocli.CommandLine
 class PeoplePrinter{
     companion object{
         fun prettyPrint(peopleResponse: Response<People>){
-            println(CommandLine.Help.Ansi.AUTO.string("@|bold,green Found ${peopleResponse.count} results|@"))
+            println(CommandLine.Help.Ansi.AUTO.string("@|bold,green Found ${peopleResponse.count} results for that query|@"))
+            println(CommandLine.Help.Ansi.AUTO.string("@|bold,green Found ${peopleResponse.count} results for that query|@"))
+
+            println(CommandLine.Help.Ansi.AUTO.string("@|underline,green Showing ${peopleResponse.results.size} characters|@"))
 
             peopleResponse.results.map {
                 println()
@@ -25,7 +28,9 @@ class PeoplePrinter{
 class PlanetsPrinter{
     companion object{
         fun prettyPrint(planetResponse: Response<Planet>) {
-            println(CommandLine.Help.Ansi.AUTO.string("@|bold,green Found ${planetResponse.count} results|@"))
+            println(CommandLine.Help.Ansi.AUTO.string("@|bold,green Found ${planetResponse.count} results for that query|@"))
+
+            println(CommandLine.Help.Ansi.AUTO.string("@|underline,green Showing ${planetResponse.results.size} characters|@"))
 
             planetResponse.results.map {
                 println()
