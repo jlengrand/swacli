@@ -6,16 +6,34 @@ Created using :
 * [PicoCLI](https://picocli.info/)
 * [SWAPI](https://swapi.dev/documentation)
 
+This repository contains several small CLIs that aim at demonstrating the various capabilities of [picoCLI](https://picocli.info/).
+
+You can find : 
+
+* SwaCLIBasic : Not doing anything but showing how picoCLI comes with batteries included
+* SwaCLIOptions : A small demonstration on how to use (mutually exclusive) options and arguments
+* SwaCLISubCommands : A small demonstration on how to use subcommands 
+* SwaCLIProgrammatic : An example that uses the programmatic API instead of the annotation system.
+
+All examples are in Kotlin and provide the same rough capabilities (get some facts about characters or planets in Star Wars)
+
 ## Running
 
 ```
 $  ./gradlew customFatJar
-$ cd build/libs
-$ java -cp all-in-one-jar-1.0-SNAPSHOT.jar nl.lengrand.swacli.SwaCLI
-# to keep color
+$ java -cp build/libs/all-in-one-jar-1.0-SNAPSHOT.jar nl.lengrand.swacli.SwaCLI
+# to keep color and paginate the results
 $ java -Dpicocli.ansi=true -cp build/libs/all-in-one-jar-1.0-SNAPSHOT.jar nl.lengrand.swacli.SwaCLIOptions -p | less -R 
 ```
 
+##  Why
+
+This is an example CLI that I created as illustration for my [JFall 2020 talk](https://jfall.nl/sessions/an-introduction-to-creating-cli-applications-using-picocli/)
+
+## Source
+
+* [The repository can be found here](https://github.com/jlengrand/swacli)
+
 ## Author 
 
-* [@jlengrand](https://github.com/jlengrand)
+* [@jlengrand](https://twitter.com/jlengrand)
