@@ -29,16 +29,23 @@ object SwaCLIProgrammatic {
     fun main(args: Array<String>) {
 
         val commandLine = CommandLine(CommandSpec.create().mixinStandardHelpOptions(true))
-        val planetsPeopleSpec = CommandSpec.create()
+        val planetsSpec = CommandSpec.create()
+        val peopleSpec = CommandSpec.create()
 
-        planetsPeopleSpec.addPositional(
+        planetsSpec.addPositional(
             PositionalParamSpec.builder()
                 .paramLabel("searchQuery")
                 .description("Search query for the request. (Example: Tatooine").build()
         )
 
-        commandLine.addSubcommand("planets", CommandLine(planetsPeopleSpec))
-        commandLine.addSubcommand("people", CommandLine(planetsPeopleSpec))
+        peopleSpec.addPositional(
+            PositionalParamSpec.builder()
+                .paramLabel("searchQuery")
+                .description("Search query for the request. (Example: Anakin").build()
+        )
+
+        commandLine.addSubcommand("planets", CommandLine(planetsSpec))
+        commandLine.addSubcommand("people", CommandLine(peopleSpec))
 
         commandLine.executionStrategy = IExecutionStrategy { run(it) }
         exitProcess(commandLine.execute(*args))
