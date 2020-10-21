@@ -2,43 +2,40 @@ package nl.lengrand.swacli
 
 import picocli.CommandLine
 
-class PeoplePrinter{
-    companion object{
-        fun prettyPrint(peopleResponse: Response<People>){
-            println(CommandLine.Help.Ansi.AUTO.string("@|bold,green Found ${peopleResponse.count} results for that query|@"))
-            if (peopleResponse.count > 0) println(CommandLine.Help.Ansi.AUTO.string("@|underline,green Showing ${peopleResponse.results.size} characters|@"))
+class PrettyPrinter {
+    companion object {
+        fun <T : Data> print(response: Response<T>){
+            println(CommandLine.Help.Ansi.AUTO.string("@|bold,green Found ${response.count} total results for that query|@"))
+            if (response.count > 0) println(CommandLine.Help.Ansi.AUTO.string("@|underline,green Showing ${response.results.size} results|@"))
 
-            peopleResponse.results.map {
-                println()
-                println(CommandLine.Help.Ansi.AUTO.string("@|bold,yellow Name : ${it.name}|@"))
-                println()
-                println(CommandLine.Help.Ansi.AUTO.string("@|reset      Birth year : ${it.birth_year}|@"))
-                println(CommandLine.Help.Ansi.AUTO.string("@|reset      Height : ${it.height}|@"))
-                println(CommandLine.Help.Ansi.AUTO.string("@|reset      Weight : ${it.mass}|@"))
-                println(CommandLine.Help.Ansi.AUTO.string("@|reset      Hair color : ${it.hair_color}|@"))
-                println(CommandLine.Help.Ansi.AUTO.string("@|reset      Homeworld : ${it.homeworld}|@"))
+            response.results.map {
+                when(it){
+                    is People -> printPeople(it)
+                    is Planet -> printPlanet(it)
+                }
             }
             println()
         }
-    }
-}
 
-class PlanetsPrinter{
-    companion object{
-        fun prettyPrint(planetResponse: Response<Planet>) {
-            println(CommandLine.Help.Ansi.AUTO.string("@|bold,green Found ${planetResponse.count} results for that query|@"))
-            if (planetResponse.count > 0) println(CommandLine.Help.Ansi.AUTO.string("@|underline,green Showing ${planetResponse.results.size} characters|@"))
-
-            planetResponse.results.map {
-                println()
-                println(CommandLine.Help.Ansi.AUTO.string("@|bold,yellow Name: ${it.name}|@"))
-                println()
-                println(CommandLine.Help.Ansi.AUTO.string("@|reset      Climate : ${it.climate}|@"))
-                println(CommandLine.Help.Ansi.AUTO.string("@|reset      Diameter (km) : ${it.diameter}|@"))
-                println(CommandLine.Help.Ansi.AUTO.string("@|reset      Gravity : ${it.gravity}|@"))
-                println(CommandLine.Help.Ansi.AUTO.string("@|reset      Orbital period : ${it.orbital_period}|@"))
-            }
+        private fun printPeople(people : People){
             println()
+            println(CommandLine.Help.Ansi.AUTO.string("@|bold,yellow Name : ${people.name}|@"))
+            println()
+            println(CommandLine.Help.Ansi.AUTO.string("@|reset      Birth year : ${people.birth_year}|@"))
+            println(CommandLine.Help.Ansi.AUTO.string("@|reset      Height : ${people.height}|@"))
+            println(CommandLine.Help.Ansi.AUTO.string("@|reset      Weight : ${people.mass}|@"))
+            println(CommandLine.Help.Ansi.AUTO.string("@|reset      Hair color : ${people.hair_color}|@"))
+            println(CommandLine.Help.Ansi.AUTO.string("@|reset      Homeworld : ${people.homeworld}|@"))
+        }
+
+        private fun printPlanet(planet : Planet){
+            println()
+            println(CommandLine.Help.Ansi.AUTO.string("@|bold,yellow Name: ${planet.name}|@"))
+            println()
+            println(CommandLine.Help.Ansi.AUTO.string("@|reset      Climate : ${planet.climate}|@"))
+            println(CommandLine.Help.Ansi.AUTO.string("@|reset      Diameter (km) : ${planet.diameter}|@"))
+            println(CommandLine.Help.Ansi.AUTO.string("@|reset      Gravity : ${planet.gravity}|@"))
+            println(CommandLine.Help.Ansi.AUTO.string("@|reset      Orbital period : ${planet.orbital_period}|@"))
         }
     }
 }

@@ -18,9 +18,9 @@ object SwaCLIProgrammatic {
             val searchQuery = if (subResult.hasMatchedPositional(0)) subResult.matchedPositional(0).stringValues()[0] else null
 
             if (subResult.commandSpec().name() == "planets")
-                PlanetsPrinter.prettyPrint(SwApi.getPlanets(searchQuery))
+                PrettyPrinter.print(SwApi.getPlanets(searchQuery))
             if (subResult.commandSpec().name() == "people")
-                PeoplePrinter.prettyPrint(SwApi.getPeople(searchQuery))
+                PrettyPrinter.print(SwApi.getPeople(searchQuery))
         }
         return 0
     }

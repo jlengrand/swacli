@@ -6,7 +6,6 @@ import picocli.CommandLine.Model.*
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
 
-
 @Command(
     name = "sw",
     version = ["0.1"],
@@ -38,7 +37,7 @@ class PlanetsCommand : Callable<Int> {
     private var searchQuery : String? = null
 
     override fun call(): Int {
-        PlanetsPrinter.prettyPrint(SwApi.getPlanets(searchQuery))
+        PrettyPrinter.print(SwApi.getPlanets(searchQuery))
         return 0
     }
 }
@@ -50,7 +49,7 @@ class PeopleCommand : Callable<Int> {
     private var searchQuery : String? = null
 
     override fun call(): Int {
-        PeoplePrinter.prettyPrint(SwApi.getPeople(searchQuery))
+        PrettyPrinter.print(SwApi.getPeople(searchQuery))
         return 0
     }
 }

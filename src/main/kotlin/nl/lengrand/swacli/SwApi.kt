@@ -28,6 +28,7 @@ class SwApi {
     }
 }
 
-data class Response<T>(val count: Int, val next : String?, val previous : String?, val results : List<T>)
-data class Planet(val climate: String, val name: String, val gravity: String, val orbital_period: String, val diameter: String)
-data class People(val name: String, val height: String, val mass: String, val hair_color: String, val homeworld: String, val birth_year: String)
+sealed class Data
+data class Response<Data>(val count: Int, val next : String?, val previous : String?, val results : List<Data>)
+data class Planet(val climate: String, val name: String, val gravity: String, val orbital_period: String, val diameter: String) : Data()
+data class People(val name: String, val height: String, val mass: String, val hair_color: String, val homeworld: String, val birth_year: String) : Data()

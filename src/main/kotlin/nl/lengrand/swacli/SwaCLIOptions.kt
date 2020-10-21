@@ -5,7 +5,6 @@ import picocli.CommandLine.*
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
 
-
 @Command(
     name = "sw",
     version = ["0.1"],
@@ -30,10 +29,9 @@ class SwaCLIOptions : Callable<Int> {
 
     override fun call(): Int {
         if(exclusive.characters)
-            PeoplePrinter.prettyPrint(SwApi.getPeople(searchQuery))
-
+            PrettyPrinter.print(SwApi.getPeople(searchQuery))
         if(exclusive.planets)
-            PlanetsPrinter.prettyPrint(SwApi.getPlanets(searchQuery))
+            PrettyPrinter.print(SwApi.getPlanets(searchQuery))
 
         return 0
     }
