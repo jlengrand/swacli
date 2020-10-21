@@ -7,7 +7,7 @@ import picocli.CommandLine.Model.PositionalParamSpec
 import picocli.CommandLine.ParseResult
 import kotlin.system.exitProcess
 
-object SwaCLIProgrammatic {
+object  SwaCLIProgrammatic {
 
     private fun run(parseResult: ParseResult): Int {
         val helpExitCode = CommandLine.executeHelpRequest(parseResult)
