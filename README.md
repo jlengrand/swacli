@@ -10,10 +10,10 @@ This repository contains several small CLIs that aim at demonstrating the variou
 
 You can find : 
 
-* SwaCLIBasic : Not doing anything but showing how picoCLI comes with batteries included
-* SwaCLIOptions : A small demonstration on how to use (mutually exclusive) options and arguments
-* SwaCLISubCommands : A small demonstration on how to use subcommands 
-* SwaCLIProgrammatic : An example that uses the programmatic API instead of the annotation system.
+* [SwaCLIBasic](src/main/kotlin/nl/lengrand/swacli/SwaCLIBasic.Kt) Not doing anything but showing how picoCLI comes with batteries included
+* [SwaCLIOptions](src/main/kotlin/nl/lengrand/swacli/SwaCLIOptions.Kt) A small demonstration on how to use (mutually exclusive) options and arguments
+* [SwaCLISubCommands](src/main/kotlin/nl/lengrand/swacli/SwaCLISubCommands.Kt) A small demonstration on how to use subcommands 
+* [SwaCLIProgrammatic](src/main/kotlin/nl/lengrand/swacli/SwaCLIProgrammatic.Kt) An example that uses the programmatic API instead of the annotation system.
 
 All examples are in Kotlin and provide the same rough capabilities (get some facts about characters or planets in Star Wars)
 
