@@ -44,7 +44,7 @@ kapt {
 
 task customFatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': 'nl.lengrand.swacli.SwaCLI'
+        attributes 'Main-Class': 'nl.lengrand.swacli.SwaCLISubCommands'
     }
     baseName = 'all-in-one-jar'
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
