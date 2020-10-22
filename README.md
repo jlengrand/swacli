@@ -24,6 +24,8 @@ $  ./gradlew customFatJar
 $ java -cp build/libs/all-in-one-jar-1.0-SNAPSHOT.jar nl.lengrand.swacli.SwaCLI
 # to keep color and paginate the results
 $ java -Dpicocli.ansi=true -cp build/libs/all-in-one-jar-1.0-SNAPSHOT.jar nl.lengrand.swacli.SwaCLIOptions -p | less -R 
+# to create the native image
+$ cd build/libs;native-image --static -jar all-in-one-jar-1.0-SNAPSHOT.jar
 ```
 
 ##  Why
