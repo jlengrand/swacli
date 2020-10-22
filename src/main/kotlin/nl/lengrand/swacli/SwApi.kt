@@ -11,13 +11,13 @@ object SwApi {
     private val httpClient = Configuration.getHttpClient()
 
     suspend fun getPeople(query : String?) : Response<People> {
-        return httpClient.get<Response<People>>("$BASE_URL/people/${queryString(query)}") {
+        return httpClient.get("$BASE_URL/people/${queryString(query)}") {
             header("Content-Type", ContentType.Application.Json.toString())
         }
     }
 
     suspend fun getPlanets(query : String?) : Response<Planet> {
-        return httpClient.get<Response<Planet>>("$BASE_URL/planets/${queryString(query)}") {
+        return httpClient.get("$BASE_URL/planets/${queryString(query)}") {
             header("Content-Type", ContentType.Application.Json.toString())
         }
     }
@@ -25,11 +25,7 @@ object SwApi {
     private fun queryString(query: String?) = if(query == null)  "" else  "?search=${query}"
 }
 
-@Serializable
-sealed class Data
-@Serializable
-data class Response<Data>(val count: Int, val next : String?, val previous : String?, val results : List<Data>)
-@Serializable
-data class Planet(val climate: String, val name: String, val gravity: String, val orbital_period: String, val diameter: String) : Data()
-@Serializable
-data class People(val name: String, val height: String, val mass: String, val hair_color: String, val homeworld: String, val birth_year: String) : Data()
+@Serializable sealed class Data
+@Serializable data class Response<Data>(val count: Int, val next : String?, val previous : String?, val results : List<Data>)
+@Serializable data class Planet(val climate: String, val name: String, val gravity: String, val orbital_period: String, val diameter: String) : Data()
+@Serializable data class People(val name: String, val height: String, val mass: String, val hair_color: String, val homeworld: String, val birth_year: String) : Data()
