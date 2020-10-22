@@ -1,5 +1,6 @@
 package nl.lengrand.swacli
 
+import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import picocli.CommandLine.IExecutionStrategy
 import picocli.CommandLine.Model.CommandSpec
@@ -17,10 +18,12 @@ object  SwaCLIProgrammatic {
             val subResult = parseResult.subcommand()
             val searchQuery = if (subResult.hasMatchedPositional(0)) subResult.matchedPositional(0).stringValues()[0] else null
 
-            if (subResult.commandSpec().name() == "planets")
-                PrettyPrinter.print(SwApi.getPlanets(searchQuery))
-            if (subResult.commandSpec().name() == "people")
-                PrettyPrinter.print(SwApi.getPeople(searchQuery))
+            runBlocking {
+                if (subResult.commandSpec().name() == "planets")
+                    PrettyPrinter.print(SwApi.getPlanets(searchQuery))
+                if (subResult.commandSpec().name() == "people")
+                    PrettyPrinter.print(SwApi.getPeople(searchQuery))
+            }
         }
         return 0
     }

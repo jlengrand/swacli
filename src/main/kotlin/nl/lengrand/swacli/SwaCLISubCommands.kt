@@ -1,5 +1,6 @@
 package nl.lengrand.swacli
 
+import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import picocli.CommandLine.*
 import picocli.CommandLine.Model.*
@@ -37,7 +38,9 @@ class PlanetsCommand : Callable<Int> {
     private var searchQuery : String? = null
 
     override fun call(): Int {
-        PrettyPrinter.print(SwApi.getPlanets(searchQuery))
+        runBlocking {
+            PrettyPrinter.print(SwApi.getPlanets(searchQuery))
+        }
         return 0
     }
 }
@@ -49,7 +52,9 @@ class PeopleCommand : Callable<Int> {
     private var searchQuery : String? = null
 
     override fun call(): Int {
-        PrettyPrinter.print(SwApi.getPeople(searchQuery))
+        runBlocking {
+            PrettyPrinter.print(SwApi.getPeople(searchQuery))
+        }
         return 0
     }
 }

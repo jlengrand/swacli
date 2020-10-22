@@ -16,22 +16,16 @@ object SwApi {
 
     private val httpClient = Configuration.getHttpClient()
 
-    suspend fun getPeople(query : String?) =
-        httpClient.get<People>("$BASE_URL/people/${queryString(query)}") {
+    suspend fun getPeople(query : String?) : Response<People> {
+        return httpClient.get<Response<People>>("$BASE_URL/people/${queryString(query)}") {
             header("Content-Type", ContentType.Application.Json.toString())
         }
+    }
 
-
-//        return Fuel.get("$BASE_URL/people/${queryString(query)}")
-//            .header("accept", "application/json")
-//            .responseObject<Response<People>>(mapper).third.get()
-
-
-
-    fun getPlanets(query : String?) : Response<Planet> {
-        return Fuel.get("$BASE_URL/planets/${queryString(query)}")
-            .header("accept", "application/json")
-            .responseObject<Response<Planet>>(mapper).third.get()
+    suspend fun getPlanets(query : String?) : Response<Planet> {
+        return httpClient.get<Response<Planet>>("$BASE_URL/planets/${queryString(query)}") {
+            header("Content-Type", ContentType.Application.Json.toString())
+        }
     }
 
     private fun queryString(query: String?) = if(query == null)  "" else  "?search=${query}"
