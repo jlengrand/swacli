@@ -1,34 +1,31 @@
 package nl.lengrand.swacli
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.jackson.responseObject
-
-val mapper: ObjectMapper = ObjectMapper().registerKotlinModule().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+import io.ktor.client.request.*
+import io.ktor.http.*
+import kotlinx.serialization.Serializable
 
 const val BASE_URL = "https://swapi.dev/api"
 
-class SwApi {
-    companion object{
-        fun getPeople(query : String?) : Response<People> {
-            return Fuel.get("$BASE_URL/people/${queryString(query)}")
-                .header("accept", "application/json")
-                .responseObject<Response<People>>(mapper).third.get()
-        }
+object SwApi {
 
-        fun getPlanets(query : String?) : Response<Planet> {
-            return Fuel.get("$BASE_URL/planets/${queryString(query)}")
-                .header("accept", "application/json")
-                .responseObject<Response<Planet>>(mapper).third.get()
-        }
+    private val httpClient = Configuration.getHttpClient()
 
-        private fun queryString(query: String?) = if(query == null)  "" else  "?search=${query}"
+    suspend fun getPeople(query : String?) : Response<People> {
+        return httpClient.get("$BASE_URL/people/${queryString(query)}") {
+            header("Content-Type", ContentType.Application.Json.toString())
+        }
     }
+
+    suspend fun getPlanets(query : String?) : Response<Planet> {
+        return httpClient.get("$BASE_URL/planets/${queryString(query)}") {
+            header("Content-Type", ContentType.Application.Json.toString())
+        }
+    }
+
+    private fun queryString(query: String?) = if(query == null)  "" else  "?search=${query}"
 }
 
-sealed class Data
-data class Response<Data>(val count: Int, val next : String?, val previous : String?, val results : List<Data>)
-data class Planet(val climate: String, val name: String, val gravity: String, val orbital_period: String, val diameter: String) : Data()
-data class People(val name: String, val height: String, val mass: String, val hair_color: String, val homeworld: String, val birth_year: String) : Data()
+@Serializable sealed class Data
+@Serializable data class Response<Data>(val count: Int, val next : String?, val previous : String?, val results : List<Data>)
+@Serializable data class Planet(val climate: String, val name: String, val gravity: String, val orbital_period: String, val diameter: String) : Data()
+@Serializable data class People(val name: String, val height: String, val mass: String, val hair_color: String, val homeworld: String, val birth_year: String) : Data()
