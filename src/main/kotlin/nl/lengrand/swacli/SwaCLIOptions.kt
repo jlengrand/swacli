@@ -3,6 +3,7 @@ package nl.lengrand.swacli
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import picocli.CommandLine.*
+import picocli.CommandLine.Model.*
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
 
@@ -13,6 +14,8 @@ import kotlin.system.exitProcess
     description = ["A Star Wars CLI built on top of https://swapi.dev/"]
 )
 class SwaCLIOptions : Callable<Int> {
+    @Spec
+    lateinit var spec: CommandSpec
 
     @Parameters(index = "0", arity = "0..1", description = ["Search query for the request. (Example : Anakin)"])
     private var searchQuery : String? = null
@@ -31,9 +34,9 @@ class SwaCLIOptions : Callable<Int> {
     override fun call(): Int {
         runBlocking {
             if (exclusive.characters)
-                PrettyPrinter.print(SwApi.getPeople(searchQuery))
+                PrettyPrinter(spec).print(SwApi.getPeople(searchQuery))
             if (exclusive.planets)
-                PrettyPrinter.print(SwApi.getPlanets(searchQuery))
+                PrettyPrinter(spec).print(SwApi.getPlanets(searchQuery))
         }
 
         return 0

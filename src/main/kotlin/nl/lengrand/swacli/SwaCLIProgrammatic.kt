@@ -10,7 +10,7 @@ import kotlin.system.exitProcess
 
 object  SwaCLIProgrammatic {
 
-    private fun run(parseResult: ParseResult): Int {
+    private fun run(spec: CommandSpec, parseResult: ParseResult): Int {
         val helpExitCode = CommandLine.executeHelpRequest(parseResult)
         if (helpExitCode != null) return helpExitCode
 
@@ -20,9 +20,9 @@ object  SwaCLIProgrammatic {
 
             runBlocking {
                 if (subResult.commandSpec().name() == "planets")
-                    PrettyPrinter.print(SwApi.getPlanets(searchQuery))
+                    PrettyPrinter(spec).print(SwApi.getPlanets(searchQuery))
                 if (subResult.commandSpec().name() == "people")
-                    PrettyPrinter.print(SwApi.getPeople(searchQuery))
+                    PrettyPrinter(spec).print(SwApi.getPeople(searchQuery))
             }
         }
         return 0
@@ -31,7 +31,8 @@ object  SwaCLIProgrammatic {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val commandLine = CommandLine(CommandSpec.create().mixinStandardHelpOptions(true))
+        val commandSpec = CommandSpec.create().mixinStandardHelpOptions(true)
+        val commandLine = CommandLine(commandSpec)
         val planetsSpec = CommandSpec.create()
         val peopleSpec = CommandSpec.create()
 
@@ -50,7 +51,7 @@ object  SwaCLIProgrammatic {
         commandLine.addSubcommand("planets", CommandLine(planetsSpec))
         commandLine.addSubcommand("people", CommandLine(peopleSpec))
 
-        commandLine.executionStrategy = IExecutionStrategy { run(it) }
+        commandLine.executionStrategy = IExecutionStrategy { run(commandSpec, it) }
         exitProcess(commandLine.execute(*args))
     }
 }

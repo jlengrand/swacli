@@ -33,13 +33,15 @@ class SwaCLISubCommands : Callable<Int> {
 
 @Command(name = "planets", description = ["Search for planets"])
 class PlanetsCommand : Callable<Int> {
+    @Spec
+    lateinit var spec: CommandSpec
 
     @Parameters(index = "0", arity = "0..1", description = ["Search query for the request. (Example : Tatooine)"])
     private var searchQuery : String? = null
 
     override fun call(): Int {
         runBlocking {
-            PrettyPrinter.print(SwApi.getPlanets(searchQuery))
+            PrettyPrinter(spec).print(SwApi.getPlanets(searchQuery))
         }
         return 0
     }
@@ -47,13 +49,15 @@ class PlanetsCommand : Callable<Int> {
 
 @Command(name = "people", description = ["Search for people"])
 class PeopleCommand : Callable<Int> {
+    @Spec
+    lateinit var spec: CommandSpec
 
     @Parameters(index = "0", arity = "0..1", description = ["Search query for the request. (Example : Anakin)"])
     private var searchQuery : String? = null
 
     override fun call(): Int {
         runBlocking {
-            PrettyPrinter.print(SwApi.getPeople(searchQuery))
+            PrettyPrinter(spec).print(SwApi.getPeople(searchQuery))
         }
         return 0
     }

@@ -14,6 +14,8 @@ You can find :
 * [SwaCLIOptions](src/main/kotlin/nl/lengrand/swacli/SwaCLIOptions.kt) A small demonstration on how to use (mutually exclusive) options and arguments
 * [SwaCLISubCommands](src/main/kotlin/nl/lengrand/swacli/SwaCLISubCommands.kt) A small demonstration on how to use subcommands 
 * [SwaCLIProgrammatic](src/main/kotlin/nl/lengrand/swacli/SwaCLIProgrammatic.kt) An example that uses the programmatic API instead of the annotation system.
+* [SwaCLISubCommandsTest](src/test/kotlin/nl/lengrand/swacli/SwaCLISubCommandsTest.kt) An example on how to test commandline configurations 
+
 
 All examples are in Kotlin and provide the same rough capabilities (get some facts about characters or planets in Star Wars)
 
