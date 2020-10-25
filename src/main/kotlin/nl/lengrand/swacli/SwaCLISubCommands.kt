@@ -12,7 +12,7 @@ import kotlin.system.exitProcess
     version = ["0.1"],
     mixinStandardHelpOptions = true,
     description = [asciiArt, "@|bold,yellow \uD83E\uDE90 A Star Wars CLI built on top of https://swapi.dev/ \uD83E\uDE90 |@"],
-    subcommands = [PlanetsCommandPaginate::class, PeopleCommandPaginate::class, HelpCommand::class]
+    subcommands = [PlanetsCommand::class, PeopleCommand::class, HelpCommand::class]
 )
 class SwaCLISubCommands : Callable<Int> {
     @Spec
