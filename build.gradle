@@ -32,7 +32,7 @@ dependencies {
     kapt 'info.picocli:picocli-codegen:4.5.0'
 }
 
-test {w
+test {
     useJUnitPlatform()
 }
 
