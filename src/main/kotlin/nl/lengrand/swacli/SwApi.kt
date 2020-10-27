@@ -1,25 +1,28 @@
 package nl.lengrand.swacli
 
-import io.ktor.client.request.*
-import io.ktor.http.*
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.serialization.responseObject
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 const val BASE_URL = "https://swapi.dev/api"
 
 object SwApi {
 
-    private val httpClient = Configuration.getHttpClient()
+    private val jsonSerializer = Json { ignoreUnknownKeys = true}
+    private val peopleDeserializer = Response.serializer(People.serializer())
+    private val planetsDeserializer = Response.serializer(Planet.serializer())
 
-    suspend fun getPeople(query : String?) : Response<People> {
-        return httpClient.get("$BASE_URL/people/${queryString(query)}") {
-            header("Content-Type", ContentType.Application.Json.toString())
-        }
+    fun getPeople(query : String?) : Response<People> {
+        return "$BASE_URL/people/${queryString(query)}".httpGet()
+            .header("accept", "application/json")
+            .responseObject(json = jsonSerializer, loader = peopleDeserializer).third.get()
     }
 
-    suspend fun getPlanets(query : String?) : Response<Planet> {
-        return httpClient.get("$BASE_URL/planets/${queryString(query)}") {
-            header("Content-Type", ContentType.Application.Json.toString())
-        }
+    fun getPlanets(query : String?) : Response<Planet> {
+        return "$BASE_URL/planets/${queryString(query)}".httpGet()
+            .header("accept", "application/json")
+            .responseObject(json = jsonSerializer, loader = planetsDeserializer).third.get()
     }
 
     private fun queryString(query: String?) = if(query == null)  "" else  "?search=${query}"

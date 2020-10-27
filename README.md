@@ -28,6 +28,8 @@ $ java -cp build/libs/all-in-one-jar-1.0-SNAPSHOT.jar nl.lengrand.swacli.SwaCLI
 $ java -Dpicocli.ansi=true -cp build/libs/all-in-one-jar-1.0-SNAPSHOT.jar nl.lengrand.swacli.SwaCLIOptions -p | less -R 
 # to create the native image
 $ cd build/libs;native-image --static -jar all-in-one-jar-1.0-SNAPSHOT.jar sw
+# remove static if you're on Mac :)
+$ cd build/libs;native-image -jar all-in-one-jar-1.0-SNAPSHOT.jar sw
 ```
 
 ##  Why

@@ -1,6 +1,5 @@
 package nl.lengrand.swacli
 
-import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import picocli.CommandLine.*
 import picocli.CommandLine.Model.*
@@ -32,12 +31,10 @@ class SwaCLIOptions : Callable<Int> {
     }
 
     override fun call(): Int {
-        runBlocking {
-            if (exclusive.characters)
-                PrettyPrinter(spec).print(SwApi.getPeople(searchQuery))
-            if (exclusive.planets)
-                PrettyPrinter(spec).print(SwApi.getPlanets(searchQuery))
-        }
+        if (exclusive.characters)
+            PrettyPrinter(spec).print(SwApi.getPeople(searchQuery))
+        if (exclusive.planets)
+            PrettyPrinter(spec).print(SwApi.getPlanets(searchQuery))
 
         return 0
     }

@@ -101,3 +101,5 @@ fabric.properties
 /.env
 
 build
+
+.DS_Store
