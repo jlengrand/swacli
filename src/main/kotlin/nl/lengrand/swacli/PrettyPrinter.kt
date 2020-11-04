@@ -12,7 +12,7 @@ ______     __     __     ______     ______     __         __
   \/_____/   \/_/   \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/
 """
 
-class PrettyPrinter(val spec : CommandLine.Model.CommandSpec ) {
+class PrettyPrinter(val spec : CommandLine.Model.CommandSpec) {
     fun <T : Data> print(response: Response<T>){
 
         spec.commandLine().out.println("""
