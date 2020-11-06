@@ -2,26 +2,40 @@ package nl.lengrand.swacli
 
 import picocli.CommandLine
 import picocli.CommandLine.*
-import picocli.CommandLine.Model.CommandSpec
+import picocli.CommandLine.Model.*
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.nio.file.Files
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
 
-class RunPaginate : RunLast() {
-}
-
 @Command(
-        name = "sw",
-        version = ["0.1"],
-        mixinStandardHelpOptions = true,
-        description = [asciiArt, "@|bold,yellow \uD83E\uDE90 A Star Wars CLI built on top of https://swapi.dev/ \uD83E\uDE90 |@"],
-        subcommands = [PlanetsCommandPaginate::class, HelpCommand::class]
+    name = "sw",
+    version = ["0.2"],
+    mixinStandardHelpOptions = true,
+    description = [asciiArt, "@|bold,yellow \uD83E\uDE90 A Star Wars CLI built on top of https://swapi.dev/ \uD83E\uDE90 |@"],
+    subcommands = [PlanetsCommand::class, PeopleCommand::class, HelpCommand::class]
 )
 class SwaCLIPaginate : Callable<Int> {
+
     @Spec
     lateinit var spec: CommandSpec
 
     private fun executionStrategy(parseResult: ParseResult): Int {
-        return RunPaginate().execute(parseResult)
+
+        if (!parseResult.hasSubcommand())
+            return RunLast().execute(parseResult)
+
+        val file = Files.createTempFile("pico", ".tmp").toFile()
+        this.spec.commandLine().out = PrintWriter(FileWriter(file), true)
+
+        val result = RunLast().execute(parseResult)
+
+        val processBuilder = ProcessBuilder("less", file.absolutePath).inheritIO()
+        val process = processBuilder.start()
+        process.waitFor()
+
+        return result
     }
 
     override fun call(): Int {
@@ -37,19 +51,5 @@ class SwaCLIPaginate : Callable<Int> {
                     .setExecutionStrategy(app::executionStrategy)
                     .execute(*args))
         }
-    }
-}
-
-@Command(name = "planets", description = ["Search for planets"])
-class PlanetsCommandPaginate : Callable<Int> {
-    @Spec
-    lateinit var spec: CommandSpec
-
-    @Parameters(index = "0", arity = "0..1", description = ["Search query for the request. (Example : Tatooine)"])
-    private var searchQuery : String? = null
-
-    override fun call(): Int {
-        PrettyPrinter(spec).print(SwApi.getPlanets(searchQuery))
-        return 0
     }
 }
