@@ -30,10 +30,11 @@ dependencies {
 }
 
 val fatJar = task("customFatJar", type = Jar::class) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    
     baseName = "${project.name}-fat"
     manifest {
         attributes["Implementation-Title"] = "SWACli"
-        attributes["Implementation-Version"] = version
         attributes["Main-Class"] = "nl.lengrand.swacli.SWACliBasicKt"
     }
     from(configurations.runtimeClasspath.get().map({ if (it.isDirectory) it else zipTree(it) }))
