@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.24'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.24'
 }
 
 apply plugin: 'kotlin-kapt' // required
@@ -12,22 +12,21 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
-    implementation 'info.picocli:picocli:4.5.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0'
+    implementation 'info.picocli:picocli:4.7.6'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
 
-    implementation 'com.github.kittinunf.fuel:fuel:2.3.0'
-    implementation 'com.github.kittinunf.fuel:fuel-kotlinx-serialization:2.3.0'
+    implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
+    implementation 'com.github.kittinunf.fuel:fuel-kotlinx-serialization:2.3.1'
 
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.2"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.10.2"
 
-    kapt 'info.picocli:picocli-codegen:4.5.0'
+    kapt 'info.picocli:picocli-codegen:4.7.6'
 }
 
 test {
@@ -47,11 +46,13 @@ kapt {
     }
 }
 
-task customFatJar(type: Jar) {
+tasks.register('customFatJar', Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     manifest {
         attributes 'Main-Class': 'nl.lengrand.swacli.SwaCLIPaginate'
     }
-    baseName = 'all-in-one-jar'
+    archiveBaseName = 'all-in-one-jar'
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
