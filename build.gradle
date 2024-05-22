@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.9.24'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.24'
+    id 'org.jetbrains.kotlin.jvm' version '2.0.0'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '2.0.0'
 }
 
-apply plugin: 'kotlin-kapt'
+//apply plugin: 'kotlin-kapt'
 
 
 group 'nl.lengrand'
@@ -26,7 +26,7 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.2"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.10.2"
 
-    kapt 'info.picocli:picocli-codegen:4.7.6'
+//    kapt 'info.picocli:picocli-codegen:4.7.6'
 }
 
 test {
@@ -44,11 +44,11 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "21"
 }
 
-kapt {
-    arguments {
-        arg("project", "${project.group}/${project.name}")
-    }
-}
+//kapt {
+//    arguments {
+//        arg("project", "${project.group}/${project.name}")
+//    }
+//}
 
 tasks.register('customFatJar', Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
